@@ -1,5 +1,4 @@
 {
-  "name": "Repository-details-page",
-  "private": true,
+  "name": "repository-details",
   "main": "./repository-details-page.container.jsx"
 }

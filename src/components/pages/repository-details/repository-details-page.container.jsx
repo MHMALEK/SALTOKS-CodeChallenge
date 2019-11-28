@@ -6,6 +6,9 @@ function RepositoryDetailsPageContainer(props) {
   return <RepositoryDetailsPageDumb {...props} />
 }
 
+const mapStateToProps = (state) => ({})
+const MapDipatchToProps = (dispatch) => ({})
+
 export default connect(
   mapStateToProps,
   MapDipatchToProps
