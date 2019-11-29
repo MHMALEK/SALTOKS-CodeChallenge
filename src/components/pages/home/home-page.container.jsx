@@ -20,11 +20,13 @@ class HomePageContainer extends React.Component {
 }
 const mapStateToProps = (state) => ({
   isLoading: state.Repository.isLoading,
-  repositoryTableData: state.Repository.repositoryTableData
+  repositoryTableData: state.Repository.repositoryTableData,
+  repositoriesData: state.Repository.repositoriesData
 })
 const mapDispatchToProps = (dispatch) => {
   return {
-    requestRepositories: (query) => dispatch(requestRepositoriesAction(query)),
+    requestRepositories: (query, page, sort, numberOfItemsPerPage) =>
+      dispatch(requestRepositoriesAction(query, page, sort, numberOfItemsPerPage)),
     userStartTyping: () => dispatch(startLoadingAfterUserTypeAction()),
     goToPageAction: (query, page) => dispatch(goToPageAction(query, page))
   }
