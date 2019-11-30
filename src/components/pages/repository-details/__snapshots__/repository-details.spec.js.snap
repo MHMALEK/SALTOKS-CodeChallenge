@@ -5,12 +5,33 @@ exports[`SnappShot for Repository details snapshot renders 1`] = `
   className="container mx-auto"
 >
   <div
-    className="max-w-sm w-full lg:max-w-full lg:flex border shadow min-h-screen mt-6 mb-6"
+    className=" border shadow mt-6 mb-6"
   >
-    <div />
-    <p>
-      dasd
-    </p>
+    <div
+      className="p-6 leading-loose"
+    >
+      <div
+        className="min-h-screen"
+      />
+      <div>
+        <div>
+           
+          <p>
+            readMePlaceHolder
+          </p>
+           
+        </div>
+      </div>
+      <div>
+        <div>
+           
+          <p>
+            Default Placeholder
+          </p>
+           
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 `;

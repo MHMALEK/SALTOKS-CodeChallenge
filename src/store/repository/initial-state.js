@@ -10,7 +10,7 @@ const InitialState = {
     ]
   },
   repositoriesData: {
-    list: null,
+    list: [],
     pagesLink: {
       next: null,
       prev: null,

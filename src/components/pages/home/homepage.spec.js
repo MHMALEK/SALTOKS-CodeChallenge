@@ -18,13 +18,16 @@ describe("Home page Snappshot ", () => {
         "see complete repo details"
       ]
     },
-    repositoriesData: {
+    fullRepositoriesData: {
       list: repositoriseSearchApi.items,
       pagesLink: {
         next: null,
         prev: null,
         first: null,
         last: null
+      },
+      briefRepositoriesData: {
+        list: repositoriseSearchApi.items.slice(0, 3)
       },
       incomplete_results: repositoriseSearchApi.incomplete_results,
       total_count: repositoriseSearchApi.total_count

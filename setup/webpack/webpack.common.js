@@ -21,6 +21,33 @@ const fileLoaderOptions = {
   }
 }
 
+const createStyleLoader = (externalOrInternal) => [
+  {
+    loader: properStyleLoader
+  },
+  {
+    loader: "css-loader",
+    options: {
+      modules:
+        externalOrInternal === "externalCssLibsWithOutCssModules" ? false : true,
+      sourceMap: true,
+      importLoaders: 1
+    }
+  },
+  {
+    loader: "postcss-loader"
+  },
+  {
+    loader: "resolve-url-loader"
+  },
+  {
+    loader: "sass-loader",
+    options: {
+      sourceMap: true
+    }
+  }
+]
+
 module.exports = {
   entry: pathTo.entryPointSrc,
   output: {
@@ -40,30 +67,16 @@ module.exports = {
         ]
       },
       {
+        // a rule for all css libs that should not pass css modules compiler
         test: fileTypes.styles,
-        use: [
+        include: [pathTo.nodeModulesDir, pathTo.srcDir],
+        oneOf: [
           {
-            loader: properStyleLoader
+            resourceQuery: /^\?interalCssWithCssModules$/,
+            use: createStyleLoader("interalCssWithCssModules")
           },
           {
-            loader: "css-loader",
-            options: {
-              modules: false,
-              sourceMap: true,
-              importLoaders: 1
-            }
-          },
-          {
-            loader: "postcss-loader"
-          },
-          {
-            loader: "resolve-url-loader"
-          },
-          {
-            loader: "sass-loader",
-            options: {
-              sourceMap: true
-            }
+            use: createStyleLoader("externalCssLibsWithOutCssModules")
           }
         ]
       },

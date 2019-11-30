@@ -53,7 +53,7 @@ function* requestRepositoriesSaga(action) {
     }
     yield put(requestRepositoriesFulfiled(dataToSaveToStore))
   } catch (e) {
-    if (!e.response) {
+    if (!e.response && !e.response.status) {
       yield put(showNotificationAction(ERROR_ON_APPLICATION_CODE))
     }
     yield put(requestRepositoriesFaild())
@@ -71,7 +71,7 @@ function* requestRepositoryDetailsSaga(action) {
 
     yield put(requestRepositoryDetailsFulfiled(dataToSaveToStore))
   } catch (e) {
-    if (!e.response) {
+    if (!e.response && !e.response.status) {
       yield put(showNotificationAction(ERROR_ON_APPLICATION_CODE))
     }
     yield put(requestRepositoryDetailsFaild())
@@ -89,7 +89,7 @@ function* requestRepositoryReadMeSaga(action) {
     }
     yield put(requestReadMeFileFulFilled(download_url, decodeContent, encoding))
   } catch (e) {
-    if (!e.response) {
+    if (!e.response && !e.response.status) {
       yield put(showNotificationAction(ERROR_ON_APPLICATION_CODE))
     }
     yield put(requestReadMeFileFaild())

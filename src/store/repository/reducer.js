@@ -46,7 +46,10 @@ const RepositoryReducer = function(state = initialState, action) {
         briefRepositoriesData: {
           list: []
         },
-        repositoriesData: {}
+        repositoriesData: {
+          ...state.repositoriesData,
+          list: []
+        }
       }
     }
 

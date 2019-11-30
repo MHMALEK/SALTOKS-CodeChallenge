@@ -1,6 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
-import "../style.scss"
+import "../style.css"
 const Footer = (props) => {
   const { children } = props
   return <footer className="main-layout--footer pt-3 pb-3 border">{children}</footer>

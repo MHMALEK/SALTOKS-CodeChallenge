@@ -10,6 +10,6 @@ describe("Loading Test", () => {
 
   it("Should contoller have loading animation", () => {
     const loading = mount(<Loading />)
-    expect(loading.find("div").hasClass("loading")).toBe(true)
+    expect(loading.find("div").hasClass("loading-container")).toBe(true)
   })
 })

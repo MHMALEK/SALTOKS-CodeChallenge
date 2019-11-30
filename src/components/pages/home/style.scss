@@ -1,4 +1,4 @@
-.result {
+.resultWrapper {
   height: 380px;
   position: absolute;
   top: 57px;
@@ -7,6 +7,29 @@
   z-index: 2;
 }
 
-.result-item {
+.resultItem {
   height: 100px;
+  &:hover {
+    background-color: ghostwhite;
+  }
+}
+
+.showAllOfResultsBtn {
+  cursor: pointer;
+  transition: background-color 0.3s;
+  width: 100%;
+  &:hover {
+    background-color: darken(#37b2ac, 3%);
+  }
+  &:disabled {
+    background-color: darken(#cbd5e0, 3%);
+    cursor: not-allowed;
+  }
+}
+
+.noItemWrapper {
+  height: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

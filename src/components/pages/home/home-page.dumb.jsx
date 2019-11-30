@@ -20,7 +20,8 @@ import { INVALID_QUERY } from "../../../utils/notification-messages"
 import appOptions from "Src/options"
 import { debounce } from "Utils/debounce"
 
-import "./style.scss"
+import * as styles from "./style.scss" // use css Modules for this componetn
+import { convertObjectKeys } from "../../../utils/objectUtils"
 
 class HomePageDumb extends React.Component {
   constructor(props) {
@@ -30,7 +31,8 @@ class HomePageDumb extends React.Component {
     this.updateRepositoriesTable = this.updateRepositoriesTable.bind(this)
     this.paginationAction = this.paginationAction.bind(this)
     this.renderRows = this.renderRows.bind(this)
-    this.hasShowMore = this.hasShowMore.bind(this)
+    this.disableShowMore = this.disableShowMore.bind(this)
+    this.hasntAnyResult = this.hasntAnyResult.bind(this)
     this.isNotValidQuery = this.isNotValidQuery.bind(this)
     this.isQueryEmpty = this.isQueryEmpty.bind(this)
     this.handleCancel = this.handleCancel.bind(this)
@@ -161,7 +163,7 @@ class HomePageDumb extends React.Component {
         key={index}
         className="flex flex-col flex-no wrap sm:table-row mb-2 sm:mb-0"
       >
-        {Object.keys(repo).map((dataKey, index) => {
+        {convertObjectKeys(repo).map((dataKey, index) => {
           if (typeof repo[dataKey] === "object" && dataKey === "owner") {
             return (
               <TableData className="break-all" key={index}>
@@ -169,13 +171,7 @@ class HomePageDumb extends React.Component {
               </TableData>
             )
           }
-          if (typeof repo[dataKey] === "object" && dataKey === "license") {
-            return (
-              <TableData className=" break-all" key={index}>
-                <span>{repo[dataKey]["key"]}</span>
-              </TableData>
-            )
-          }
+
           return (
             <TableData className=" break-all" key={index}>
               <span>{repo[dataKey]}</span>
@@ -189,10 +185,42 @@ class HomePageDumb extends React.Component {
     ))
   }
 
-  hasShowMore() {
+  disableShowMore() {
     const { fullRepositoriesData, briefRepositoriesData } = this.props
-    if (fullRepositoriesData.list && briefRepositoriesData.list) {
-      return fullRepositoriesData.list.length > briefRepositoriesData.list.length
+    if (fullRepositoriesData.list.length === 0) return true
+    return briefRepositoriesData.list.length >= fullRepositoriesData.list.length
+  }
+
+  hasntAnyResult() {
+    const { query, isTypeLoading } = this.state
+    const { isLoading, fullRepositoriesData } = this.props
+    if (
+      // if user wasn't typing or api completed show him no result
+      !isLoading &&
+      !isTypeLoading &&
+      query.length > 0 &&
+      fullRepositoriesData.list.length === 0
+    ) {
+      return true
+    }
+    return false
+  }
+
+  renderNoResult() {
+    const { query, isTypeLoading } = this.state
+    const { isLoading, fullRepositoriesData } = this.props
+    if (
+      // if user wasn't typing or api completed show him no result
+      !isLoading &&
+      !isTypeLoading &&
+      query.length > 0 &&
+      fullRepositoriesData.list.length === 0
+    ) {
+      return (
+        <div className={styles.noItemWrapper}>
+          <p>Sorry, the search doesnt have any result:(</p>
+        </div>
+      )
     }
   }
 
@@ -204,6 +232,8 @@ class HomePageDumb extends React.Component {
       fullRepositoriesData,
       briefRepositoriesData
     } = this.props
+
+    const { resultWrapper, resultItem, showAllOfResultsBtn } = styles
 
     return (
       <>
@@ -227,7 +257,7 @@ class HomePageDumb extends React.Component {
             </Button>
 
             {this.state.showBriefResulst && (
-              <div className="result rounded bg-white border">
+              <div className={`${resultWrapper} rounded bg-white border`}>
                 {(isTypeLoading || isLoading) && (
                   <div className="loading-wrapper mt-6 mb-6  mx-auto">
                     <div className="loading-wrapper flex items-center justify-center">
@@ -240,18 +270,25 @@ class HomePageDumb extends React.Component {
                     !isLoading &&
                     briefRepositoriesData.list.map((repo, index) => (
                       <Link key={index} to={`repos/${repo.full_name}`}>
-                        <div className="result-item text-teal-500 flex items-center pl-5 jusify-center border border-grey">
+                        <div
+                          className={`${resultItem} text-teal-500 flex items-center pl-5 jusify-center border border-grey`}
+                        >
                           {repo.full_name}
                         </div>
                       </Link>
                     ))}
-                  {!isTypeLoading && !isLoading && (
-                    <div className="flex bg-teal-500 justify-center items-center pt-6 pb-8 text-white">
-                      <Button onClick={this.closeSearchBox}>
+                  {!isTypeLoading &&
+                    !isLoading &&
+                    briefRepositoriesData.list.length > 0 && (
+                      <Button
+                        onClick={this.closeSearchBox}
+                        className={`${showAllOfResultsBtn} flex bg-teal-500 justify-center items-center pt-6 pb-8 text-white`}
+                        disabled={this.disableShowMore()}
+                      >
                         show all of the results ...
                       </Button>
-                    </div>
-                  )}
+                    )}
+                  {this.renderNoResult()}
                 </div>
               </div>
             )}
@@ -282,15 +319,14 @@ class HomePageDumb extends React.Component {
 
         <div className="container mx-auto">
           <div className="results-wrapper mt-5 ml-2">
-            {fullRepositoriesData.list && !showBriefResulst && (
+            {fullRepositoriesData.list.length > 0 && !showBriefResulst && (
               <>
                 <p className="mb-5">
                   we have found
                   <span className="text-red-600">
-                    {" "}
                     {fullRepositoriesData.list.length > 0
                       ? fullRepositoriesData.total_count
-                      : 0}{" "}
+                      : 0}
                   </span>
                   results for you
                 </p>
@@ -315,7 +351,7 @@ class HomePageDumb extends React.Component {
                     <Button
                       disabled={!fullRepositoriesData.pagesLink.first}
                       onClick={() => this.paginationAction("first")}
-                      className="bg-gray-300 hover:bg-gray-400 py-2 px-4 rounded-l"
+                      className={`${showAllOfResultsBtn} bg-gray-300 hover:bg-gray-400  py-2 px-4 flex rounded-l`}
                     >
                       first
                     </Button>
@@ -323,21 +359,21 @@ class HomePageDumb extends React.Component {
                     <Button
                       disabled={!fullRepositoriesData.pagesLink.prev}
                       onClick={() => this.paginationAction("prev")}
-                      className="bg-gray-300 hover:bg-gray-400 py-2 px-4 rounded-l flex"
+                      className={`${showAllOfResultsBtn} bg-gray-300 hover:bg-gray-400  py-2 px-4 flex`}
                     >
                       <span>prev</span>
                     </Button>
                     <Button
                       disabled={!fullRepositoriesData.pagesLink.next}
                       onClick={() => this.paginationAction("next")}
-                      className="bg-gray-300 hover:bg-gray-400  py-2 px-4 rounded-l flex"
+                      className={`${showAllOfResultsBtn} bg-gray-300 hover:bg-gray-400  py-2 px-4 flex`}
                     >
                       <span>next </span>
                     </Button>
                     <Button
                       disabled={!fullRepositoriesData.pagesLink.last}
                       onClick={() => this.paginationAction("last")}
-                      className="bg-gray-300 hover:bg-gray-400  py-2 px-4 rounded-l"
+                      className={`${showAllOfResultsBtn} bg-gray-300 hover:bg-gray-400  py-2 px-4 rounded-r`}
                     >
                       last
                     </Button>
@@ -361,6 +397,17 @@ HomePageDumb.propTypes = {
   showNotificationAction: PropTypes.func,
   briefRepositoriesData: PropTypes.object,
   removeSearchResultsAction: PropTypes.func
+}
+
+HomePageDumb.defaultProps = {
+  repositoryTableData: [],
+  fullRepositoriesData: {
+    list: []
+  },
+  isLoading: false,
+  briefRepositoriesData: {
+    list: []
+  }
 }
 
 export default HomePageDumb

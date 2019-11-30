@@ -10,8 +10,8 @@ import store from "Store"
 import RouterHandler from "Src/router"
 import ErrorBoundary from "Components/layout/error-bundaries"
 
-import "./style.scss"
-import "react-toastify/dist/ReactToastify.min.css"
+import "./style.css?externalCssLibsWithOutCssModules"
+import "react-toastify/dist/ReactToastify.min.css?externalCssLibsWithOutCssModules"
 
 const Root = () => {
   return (
