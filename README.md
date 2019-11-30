@@ -62,4 +62,4 @@ I'm not a good tester, but I tride to do my best. hope it's allright.
  I really didn't get what you want about times. I just changed the times and show the diffrence between current time and the api time.
 I have developed my own Lazy Load component with  Intersection Observer API. I know this in not cross platform (not supporting Older  browsers or IE ) but I didn't have enough time to write a completed lazy load component. so sorry about that. 
 
-# Thanks, Thanks for great Interview and the greate oppurtunity!
+# Thanks, Thanks for great Interview and the great oppurtunity!
