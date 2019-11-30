@@ -8,16 +8,16 @@ the  main Stack and libraries that I have used for this project, are listed belo
 
 Libraries and frameworks: 
 
-1- React
-2- Redux
-3- Redux Saga
-4- [Tailwind](https://tailwindcss.com/) 
-5 - SASS (there isn't so much Sass and  CSS because no need to. I used Tailwind as Main CSS framework, but I have some CSS and SASS with CSS Modules too.
-6 - JEST and Enzyme for Unit Tests
-7 - CYPRESS for END2END Test. as writing of this document, I didn't write special test with it, just config it for a better time.
-8- React Router as main Router
-9- eslint and prettier for lint and format files
-10- some wepack config.
+ - React
+ - Redux
+ - Redux Saga
+ - [Tailwind](https://tailwindcss.com/) 
+ - SASS (there isn't so much Sass and  CSS because no need to. I used Tailwind as Main CSS framework, but I have some CSS and SASS with CSS Modules too.
+ - JEST and Enzyme for Unit Tests
+ - CYPRESS for END2END Test. as writing of this document, I didn't write special test with it, just config it for a better time.
+ - React Router as main Router
+ - eslint and prettier for lint and format files
+ - some wepack config.
 
 ## Project Strucutre
 
