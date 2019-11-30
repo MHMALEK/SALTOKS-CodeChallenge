@@ -1,0 +1,4 @@
+{
+  "name": "repository-details",
+  "main": "./repository-details-page.container.jsx"
+}

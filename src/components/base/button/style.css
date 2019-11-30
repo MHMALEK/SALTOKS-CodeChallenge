@@ -1,0 +1,42 @@
+.button {
+  border-radius: 6px;
+  padding: 13px 0;
+  text-align: center;
+  border: none;
+  background: transparent;
+  width: 100%;
+  transition: all 0.3s;
+  font-size: 0.8rem;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.blue-border {
+  border: 1px solid #0088cc;
+  color: #0088cc;
+  &:hover {
+    background-color: #0088cc;
+    color: white;
+    transition: all 0.3s;
+  }
+}
+.red-border {
+  border: 1px solid $red;
+  color: $red;
+}
+.blue-bg {
+  color: white;
+  background-color: #0088cc;
+  &:hover {
+    background-color: lighten($color: #0088cc, $amount: 5);
+    transition: all 0.3s;
+  }
+}
+
+button.disabled {
+  background-color: #cccccc;
+  &:hover {
+    cursor: not-allowed;
+  }
+}
