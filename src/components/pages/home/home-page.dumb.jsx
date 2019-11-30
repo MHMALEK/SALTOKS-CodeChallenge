@@ -1,8 +1,9 @@
 import React from "react"
 import { Link } from "react-router-dom"
 import PropTypes from "prop-types"
+
 import Button from "Components/base/button"
-import BaseInput from "Components/base/input"
+import Input from "Components/base/input"
 import Select from "Components/base/select"
 import Loading from "Components/base/loading"
 
@@ -14,10 +15,14 @@ import {
   TableHeader,
   TableRow
 } from "Components/base/table"
+import { INVALID_QUERY } from "../../../utils/notification-messages"
 
 import appOptions from "Src/options"
 import { debounce } from "Utils/debounce"
-export default class HomePageDumb extends React.Component {
+
+import "./style.scss"
+
+class HomePageDumb extends React.Component {
   constructor(props) {
     super(props)
 
@@ -25,8 +30,11 @@ export default class HomePageDumb extends React.Component {
     this.updateRepositoriesTable = this.updateRepositoriesTable.bind(this)
     this.paginationAction = this.paginationAction.bind(this)
     this.renderRows = this.renderRows.bind(this)
-    this.isValidQuery = this.isValidQuery.bind(this)
+    this.hasShowMore = this.hasShowMore.bind(this)
+    this.isNotValidQuery = this.isNotValidQuery.bind(this)
+    this.isQueryEmpty = this.isQueryEmpty.bind(this)
     this.handleCancel = this.handleCancel.bind(this)
+    this.closeSearchBox = this.closeSearchBox.bind(this)
 
     // Debounce
     this.updateRepositoriesTable = debounce(
@@ -39,15 +47,26 @@ export default class HomePageDumb extends React.Component {
       page: null,
       sort: null,
       numberOfItemsPerPage: null,
-      isTypeLoading: false
+      isTypeLoading: false,
+      showBriefResulst: false,
+      briefResulst: []
+    }
+  }
+
+  componentDidUpdate(props) {
+    if (
+      props.fullRepositoriesData.list &&
+      props.fullRepositoriesData.list.length > 0
+    ) {
+      //show indicator
     }
   }
 
   paginationAction(page) {
-    const { repositoriesData } = this.props
+    const { fullRepositoriesData } = this.props
     this.setState(
       {
-        page: repositoriesData.pagesLink[page]
+        page: fullRepositoriesData.pagesLink[page]
       },
       () => {
         this.updateRepositoriesTable()
@@ -56,37 +75,63 @@ export default class HomePageDumb extends React.Component {
   }
 
   updateRepositoriesTable() {
-    const { requestRepositories } = this.props
+    const { requestRepositories, showNotificationAction } = this.props
     const { query, page, sort, numberOfItemsPerPage } = this.state
     this.setState({
       isTypeLoading: false
     })
+
+    if (this.isNotValidQuery()) {
+      this.setState({
+        isTypeLoading: false
+      })
+      showNotificationAction(INVALID_QUERY)
+      return
+    }
+    if (this.isQueryEmpty()) {
+      this.setState({
+        isTypeLoading: false
+      })
+      return
+    }
     requestRepositories(query, page, sort, numberOfItemsPerPage)
   }
 
-  isValidQuery() {
+  isQueryEmpty() {
     const { query } = this.state
     if (query === " " || query === "") {
-      return false
+      return true
     }
-    return true
+    return false
+  }
+  isNotValidQuery() {
+    const { query } = this.state
+    // eslint-disable-next-line no-useless-escape
+    const regex = /[ !@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/
+    if (regex.test(query)) {
+      return true
+    }
+    return false
   }
   handleOnChange(e) {
+    const { removeSearchResultsAction } = this.props
     const { name, value } = e.target
-
     this.setState(
       {
         [name]: value,
         isTypeLoading: true
       },
       () => {
-        if (this.isValidQuery()) {
+        if (this.state.query.length > 0) {
+          if (name === "query") {
+            this.setState({
+              showBriefResulst: true
+            })
+          }
           this.updateRepositoriesTable()
         } else {
-          // to do: show Error
-          this.setState({
-            isTypeLoading: false
-          })
+          removeSearchResultsAction()
+          this.closeSearchBox()
         }
       }
     )
@@ -97,13 +142,21 @@ export default class HomePageDumb extends React.Component {
       query: "",
       isTypeLoading: false
     })
+    this.closeSearchBox()
+  }
+
+  closeSearchBox() {
+    this.setState(() => ({
+      showBriefResulst: false
+    }))
   }
 
   renderRows() {
-    const { repositoriesData } = this.props
-    if (repositoriesData.list.length === 0) return null
+    const { fullRepositoriesData } = this.props
 
-    return repositoriesData.list.map((repo, index) => (
+    if (fullRepositoriesData.list.length === 0) return null
+
+    return fullRepositoriesData.list.map((repo, index) => (
       <TableRow
         key={index}
         className="flex flex-col flex-no wrap sm:table-row mb-2 sm:mb-0"
@@ -111,191 +164,188 @@ export default class HomePageDumb extends React.Component {
         {Object.keys(repo).map((dataKey, index) => {
           if (typeof repo[dataKey] === "object" && dataKey === "owner") {
             return (
-              <TableData
-                className="border-grey-light border hover:bg-gray-100 p-3"
-                key={index}
-              >
-                {repo[dataKey]["login"]}
+              <TableData className="break-all" key={index}>
+                <span>{repo[dataKey]["login"]}</span>
+              </TableData>
+            )
+          }
+          if (typeof repo[dataKey] === "object" && dataKey === "license") {
+            return (
+              <TableData className=" break-all" key={index}>
+                <span>{repo[dataKey]["key"]}</span>
               </TableData>
             )
           }
           return (
-            <TableData
-              className="border-grey-light border hover:bg-gray-100 p-3"
-              key={index}
-            >
-              {repo[dataKey]}
+            <TableData className=" break-all" key={index}>
+              <span>{repo[dataKey]}</span>
             </TableData>
           )
         })}
-        <TableData
-          className="border-grey-light border hover:bg-gray-100 p-3"
-          key={index * index}
-        >
-          <Link to={`repos/${repo.full_name}`}> click here </Link>
+        <TableData className=" break-all" key={index * index}>
+          <Link to={`repos/${repo.full_name}`}> click to show </Link>
         </TableData>
       </TableRow>
     ))
   }
 
+  hasShowMore() {
+    const { fullRepositoriesData, briefRepositoriesData } = this.props
+    if (fullRepositoriesData.list && briefRepositoriesData.list) {
+      return fullRepositoriesData.list.length > briefRepositoriesData.list.length
+    }
+  }
+
   render() {
-    const { query, isTypeLoading } = this.state
-    const { isLoading, repositoryTableData, repositoriesData } = this.props
+    const { query, showBriefResulst, isTypeLoading } = this.state
+    const {
+      isLoading,
+      repositoryTableData,
+      fullRepositoriesData,
+      briefRepositoriesData
+    } = this.props
+
     return (
       <>
         <div className="container mx-auto">
-          <div className="flex items-center border-b border-b-2 border-teal-500 py-2">
-            <BaseInput
+          <div className="flex mt-5 pb-5 relative border-b-2 border-teal-500 py-2">
+            <Input
               onChange={this.handleOnChange}
               value={query}
               name="query"
-              className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
               type="text"
               placeholder="Start Typing to Search on Github Repos"
-              aria-label="Full name"
+              aria-label="repo name"
             />
 
             <Button
-              className="flex-shrink-0 border-transparent border-4 text-teal-500 hover:text-teal-800 text-sm py-1 px-2 rounded"
+              className="flex-shrink-0 border-transparent text-teal-500 "
               type="button"
               onClick={this.handleCancel}
             >
-              clear
+              {this.state.showBriefResulst ? "X" : "clear"}
             </Button>
+
+            {this.state.showBriefResulst && (
+              <div className="result rounded bg-white border">
+                {(isTypeLoading || isLoading) && (
+                  <div className="loading-wrapper mt-6 mb-6  mx-auto">
+                    <div className="loading-wrapper flex items-center justify-center">
+                      <Loading />
+                    </div>
+                  </div>
+                )}
+                <div className="result-items-wrapper">
+                  {!isTypeLoading &&
+                    !isLoading &&
+                    briefRepositoriesData.list.map((repo, index) => (
+                      <Link key={index} to={`repos/${repo.full_name}`}>
+                        <div className="result-item text-teal-500 flex items-center pl-5 jusify-center border border-grey">
+                          {repo.full_name}
+                        </div>
+                      </Link>
+                    ))}
+                  {!isTypeLoading && !isLoading && (
+                    <div className="flex bg-teal-500 justify-center items-center pt-6 pb-8 text-white">
+                      <Button onClick={this.closeSearchBox}>
+                        show all of the results ...
+                      </Button>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
           </div>
 
-          <div className="filter-wrapper m-3 ">
-            <p className="title mb-3">sort by</p>
-            <div className="mb-6 inline-block relative w-64">
-              <Select
-                onChange={this.handleOnChange}
-                name="sort"
-                className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
-              >
+          <div className="filter-wrapper mt-8 ml-2 flex jusify-center items-center">
+            <div>
+              <p className="title mb-3">sort by</p>
+              <Select onChange={this.handleOnChange} name="sort">
                 <option value="best_match">best_match</option>
                 <option value="stars">stars</option>
                 <option value="forks">forks</option>
                 <option value="help-wanted-issues">help-wanted-issues</option>
                 <option value="updated">updated</option>
               </Select>
-              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                <svg
-                  className="fill-current h-4 w-4"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                >
-                  <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                </svg>
-              </div>
             </div>
-
-            <p className="title mb-3">number to show per page</p>
-            <div className="inline-block relative w-64">
-              <Select
-                onChange={this.handleOnChange}
-                name="numberOfItemsPerPage"
-                className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
-              >
+            <div className="ml-5">
+              <p className="title mb-3 ">number to show per page</p>
+              <Select onChange={this.handleOnChange} name="numberOfItemsPerPage">
                 <option value="10">10</option>
                 <option value="20">20</option>
                 <option value="30">30</option>
                 <option value="40">40</option>
               </Select>
-              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                <svg
-                  className="fill-current h-4 w-4"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                >
-                  <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                </svg>
-              </div>
             </div>
           </div>
+        </div>
 
-          {isLoading ||
-            (isTypeLoading && (
-              <div className="loading-wrapper flex item-center justify-center">
-                <Loading />
-              </div>
-            ))}
+        <div className="container mx-auto">
+          <div className="results-wrapper mt-5 ml-2">
+            {fullRepositoriesData.list && !showBriefResulst && (
+              <>
+                <p className="mb-5">
+                  we have found
+                  <span className="text-red-600">
+                    {" "}
+                    {fullRepositoriesData.list.length > 0
+                      ? fullRepositoriesData.total_count
+                      : 0}{" "}
+                  </span>
+                  results for you
+                </p>
+                <Table isLoading={isLoading}>
+                  <TableHeader>
+                    <TableRow>
+                      {repositoryTableData.headers.length > 0 &&
+                        repositoryTableData.headers.map((item, index) => (
+                          <TableHead className="p-3 border text-left" key={index}>
+                            {item}
+                          </TableHead>
+                        ))}
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody className="flex-1 sm:flex-none">
+                    {this.renderRows()}
+                  </TableBody>
+                </Table>
 
-          {repositoriesData.list.length > 0 && (
-            <>
-              <Table
-                className="w-full flex flex-row flex-no-wrap sm:bg-white rounded-lg overflow-x-auto overflow-y-hidden sm:shadow-lg my-5"
-                isLoading={isLoading}
-              >
-                <TableHeader className="bg-teal-400 flex flex-col flex-no wrap sm:table-row rounded-l-lg sm:rounded-none  sm:mb-0">
-                  <TableRow>
-                    {repositoryTableData.headers.length > 0 &&
-                      repositoryTableData.headers.map((item, index) => (
-                        <TableHead className="p-3 border text-left" key={index}>
-                          {item}
-                        </TableHead>
-                      ))}
-                  </TableRow>
-                </TableHeader>
-                <TableBody className="flex-1 sm:flex-none">
-                  {this.renderRows()}
-                </TableBody>
-              </Table>
+                <div className="pagination-wrapper flex items-center mb-6 mt-6 justify-center">
+                  <div className="inline-flex">
+                    <Button
+                      disabled={!fullRepositoriesData.pagesLink.first}
+                      onClick={() => this.paginationAction("first")}
+                      className="bg-gray-300 hover:bg-gray-400 py-2 px-4 rounded-l"
+                    >
+                      first
+                    </Button>
 
-              <div className="inline-flex">
-                <Button
-                  disabled={!repositoriesData.pagesLink.first}
-                  onClick={() => this.paginationAction("first")}
-                  className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l"
-                >
-                  first
-                </Button>
-
-                <Button
-                  disabled={!repositoriesData.pagesLink.prev}
-                  onClick={() => this.paginationAction("prev")}
-                  className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l flex"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    width="24"
-                    height="24"
-                  >
-                    <path
-                      className="heroicon-ui"
-                      d="M14.7 15.3a1 1 0 0 1-1.4 1.4l-4-4a1 1 0 0 1 0-1.4l4-4a1 1 0 0 1 1.4 1.4L11.42 12l3.3 3.3z"
-                    />
-                  </svg>
-                  <span>prev</span>
-                </Button>
-                <Button
-                  disabled={!repositoriesData.pagesLink.next}
-                  onClick={() => this.paginationAction("next")}
-                  className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l flex"
-                >
-                  <span>next </span>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    width="24"
-                    height="24"
-                  >
-                    <path
-                      className="heroicon-ui"
-                      d="M9.3 8.7a1 1 0 0 1 1.4-1.4l4 4a1 1 0 0 1 0 1.4l-4 4a1 1 0 0 1-1.4-1.4l3.29-3.3-3.3-3.3z"
-                    />
-                  </svg>
-                </Button>
-                <Button
-                  disabled={!repositoriesData.pagesLink.last}
-                  onClick={() => this.paginationAction("last")}
-                  className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l"
-                >
-                  last
-                </Button>
-              </div>
-            </>
-          )}
+                    <Button
+                      disabled={!fullRepositoriesData.pagesLink.prev}
+                      onClick={() => this.paginationAction("prev")}
+                      className="bg-gray-300 hover:bg-gray-400 py-2 px-4 rounded-l flex"
+                    >
+                      <span>prev</span>
+                    </Button>
+                    <Button
+                      disabled={!fullRepositoriesData.pagesLink.next}
+                      onClick={() => this.paginationAction("next")}
+                      className="bg-gray-300 hover:bg-gray-400  py-2 px-4 rounded-l flex"
+                    >
+                      <span>next </span>
+                    </Button>
+                    <Button
+                      disabled={!fullRepositoriesData.pagesLink.last}
+                      onClick={() => this.paginationAction("last")}
+                      className="bg-gray-300 hover:bg-gray-400  py-2 px-4 rounded-l"
+                    >
+                      last
+                    </Button>
+                  </div>
+                </div>
+              </>
+            )}
+          </div>
         </div>
       </>
     )
@@ -305,7 +355,12 @@ export default class HomePageDumb extends React.Component {
 HomePageDumb.propTypes = {
   goToPageAction: PropTypes.func,
   repositoryTableData: PropTypes.object,
-  repositoriesData: PropTypes.object,
+  fullRepositoriesData: PropTypes.object,
   requestRepositories: PropTypes.func,
-  isLoading: PropTypes.bool
+  isLoading: PropTypes.bool,
+  showNotificationAction: PropTypes.func,
+  briefRepositoriesData: PropTypes.object,
+  removeSearchResultsAction: PropTypes.func
 }
+
+export default HomePageDumb

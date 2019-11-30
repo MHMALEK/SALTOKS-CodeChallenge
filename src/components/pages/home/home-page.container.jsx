@@ -4,8 +4,10 @@ import HomePageDumb from "./home-page.dumb"
 import {
   requestRepositoriesAction,
   startLoadingAfterUserTypeAction,
-  goToPageAction
+  goToPageAction,
+  removeSearchResultsAction
 } from "Store/repository/actions"
+import { showNotificationAction } from "../../../store/ui/actions"
 class HomePageContainer extends React.Component {
   constructor(props) {
     super(props)
@@ -21,14 +23,17 @@ class HomePageContainer extends React.Component {
 const mapStateToProps = (state) => ({
   isLoading: state.Repository.isLoading,
   repositoryTableData: state.Repository.repositoryTableData,
-  repositoriesData: state.Repository.repositoriesData
+  fullRepositoriesData: state.Repository.repositoriesData,
+  briefRepositoriesData: state.Repository.briefRepositoriesData
 })
 const mapDispatchToProps = (dispatch) => {
   return {
     requestRepositories: (query, page, sort, numberOfItemsPerPage) =>
       dispatch(requestRepositoriesAction(query, page, sort, numberOfItemsPerPage)),
     userStartTyping: () => dispatch(startLoadingAfterUserTypeAction()),
-    goToPageAction: (query, page) => dispatch(goToPageAction(query, page))
+    goToPageAction: (query, page) => dispatch(goToPageAction(query, page)),
+    showNotificationAction: (error) => dispatch(showNotificationAction(error)),
+    removeSearchResultsAction: () => dispatch(removeSearchResultsAction())
   }
 }
 

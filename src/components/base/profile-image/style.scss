@@ -1,0 +1,22 @@
+.defaults-image {
+  min-height: 130px;
+}
+
+.defaults-image {
+  max-width: 100%;
+  height: auto;
+}
+
+// Presentational styles
+.defaults-image {
+  border: solid 1px #bbb;
+}
+
+.image-replacer {
+  cursor: waiting;
+}
+
+figure {
+  padding: 0;
+  margin: 1em 0;
+}

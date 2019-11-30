@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SnappShot for Repository details snapshot renders 1`] = `
+<div
+  className="container mx-auto"
+>
+  <div
+    className="max-w-sm w-full lg:max-w-full lg:flex border shadow min-h-screen mt-6 mb-6"
+  >
+    <div />
+    <p>
+      dasd
+    </p>
+  </div>
+</div>
+`;

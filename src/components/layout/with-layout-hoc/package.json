@@ -1,0 +1,5 @@
+{
+  "name": "withLayoutHOC",
+  "private": true,
+  "main": "./with-layout.hoc.jsx"
+}

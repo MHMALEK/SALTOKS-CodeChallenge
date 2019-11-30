@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SnappShot for Application snapshot renders 1`] = `
+Array [
+  " ",
+  " ",
+]
+`;
