@@ -54,7 +54,7 @@ I have used google workbox for installing and hadle cache. in saga it call insta
 
 ## TEST - Unit and END2END
 
-I'm not a good tester, but I tride to do my best. hope it's allright.
+I'm not a good tester, but I tride to do my best. hope it's allright. ther is also an error on table test that's about space in component. I hadn't find the solution for it now, so I just ignored it for now.
 
 
 ## Some other Notes
