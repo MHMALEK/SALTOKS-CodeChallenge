@@ -1,6 +1,6 @@
 describe('Repository Details Page', () => {
    beforeEach(() => {
-      cy.visit('/repos/sschoger/heroicons-ui'); // sample repo
+      cy.visit('/repos/facebook/react'); // sample repo
    });
 
    context('Repository Details View', () => {
