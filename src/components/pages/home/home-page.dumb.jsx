@@ -20,7 +20,7 @@ import { INVALID_QUERY } from "../../../utils/notification-messages"
 import appOptions from "Src/options"
 import { debounce } from "Utils/debounce"
 
-import * as styles from "./style.scss" // use css Modules for this componetn
+import * as styles from "./style.scss?interalCssWithCssModules" // use css Modules for this componetn
 import { convertObjectKeys } from "../../../utils/objectUtils"
 
 class HomePageDumb extends React.Component {
