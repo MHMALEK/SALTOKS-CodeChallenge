@@ -1,5 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
+import { Link } from "react-router-dom"
 
 const Header = (props) => {
   const { children } = props
@@ -7,7 +8,7 @@ const Header = (props) => {
     <nav className="flex items-center justify-between flex-wrap bg-teal-500 p-6">
       <div className="flex items-center flex-shrink-0 text-white mr-6">
         <span className="font-semibold text-xl tracking-tight">
-          SALTO KS Code Challenge
+          <Link to="/">SALTO KS </Link>
         </span>
       </div>
       <div className="block lg:hidden">

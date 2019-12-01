@@ -4,7 +4,8 @@ import ScrollToTop from "../../../router/scroll-to-top"
 export default function withLayoutAndScrollTop(
   WrappedComponent,
   hasLayout = true,
-  needScrollTopOnMount = false
+  needScrollTopOnMount = false,
+  routeName
 ) {
   // eslint-disable-next-line react/display-name
   return class extends React.Component {
@@ -15,20 +16,20 @@ export default function withLayoutAndScrollTop(
       return needScrollTopOnMount ? (
         <ScrollToTop>
           {hasLayout ? (
-            <MainLayout>
+            <MainLayout {...this.props} routeName={routeName}>
               <WrappedComponent {...this.props} />
             </MainLayout>
           ) : (
-            <WrappedComponent {...this.props} />
-          )}
+              <WrappedComponent {...this.props} />
+            )}
         </ScrollToTop>
       ) : hasLayout ? (
-        <MainLayout>
+        <MainLayout  {...this.props} routeName={routeName}>
           <WrappedComponent {...this.props} />
         </MainLayout>
       ) : (
-        <WrappedComponent {...this.props} />
-      )
+            <WrappedComponent {...this.props} />
+          )
     }
   }
 }

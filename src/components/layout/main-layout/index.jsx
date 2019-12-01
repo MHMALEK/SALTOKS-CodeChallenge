@@ -3,6 +3,7 @@ import PropTypes from "prop-types"
 import Header from "./header"
 import Footer from "./footer"
 import { Link } from "react-router-dom"
+import BreadCrumb from "./bread-crumb";
 
 const MainLayout = (props) => {
   const { children } = props
@@ -11,6 +12,7 @@ const MainLayout = (props) => {
       <div className="flex-grow">
         <Header>
           <div className="text-sm lg:flex-grow">
+
             <Link
               to="/"
               className="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4"
@@ -31,16 +33,20 @@ const MainLayout = (props) => {
             </Link>
           </div>
         </Header>
+        <BreadCrumb url={props.location.pathname}> {props.routeName} </BreadCrumb>
+
         <main className="main-layout--content">{children}</main>
       </div>
 
       <Footer>By: Mhos.Malek@gmail.com</Footer>
+
     </div>
   )
 }
 
 MainLayout.propTypes = {
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
+  location: PropTypes.object
 }
 
 export default MainLayout

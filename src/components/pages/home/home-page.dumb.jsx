@@ -179,7 +179,7 @@ class HomePageDumb extends React.Component {
           )
         })}
         <TableData className=" break-all" key={index * index}>
-          <Link to={`repos/${repo.full_name}`}> click to show </Link>
+          <Link to={`repos/${repo.full_name}`}> <Button className={styles.showDetailsButton}>More</Button>  </Link>
         </TableData>
       </TableRow>
     ))
@@ -249,7 +249,7 @@ class HomePageDumb extends React.Component {
             />
 
             <Button
-              className="flex-shrink-0 border-transparent text-teal-500 "
+              className="clear-button flex-shrink-0 border-transparent text-teal-500 "
               type="button"
               onClick={this.handleCancel}
             >
@@ -257,7 +257,7 @@ class HomePageDumb extends React.Component {
             </Button>
 
             {this.state.showBriefResulst && (
-              <div className={`${resultWrapper} rounded bg-white border`}>
+              <div className={`${resultWrapper} show-results-wrapper rounded bg-white border`}>
                 {(isTypeLoading || isLoading) && (
                   <div className="loading-wrapper mt-6 mb-6  mx-auto">
                     <div className="loading-wrapper flex items-center justify-center">
@@ -322,20 +322,25 @@ class HomePageDumb extends React.Component {
             {fullRepositoriesData.list.length > 0 && !showBriefResulst && (
               <>
                 <p className="mb-5">
-                  we have found
-                  <span className="text-red-600">
+                  <span>
+                    we have found
+                </span>
+                  <span className="text-red-600 mx-2">
+
                     {fullRepositoriesData.list.length > 0
                       ? fullRepositoriesData.total_count
                       : 0}
                   </span>
-                  results for you
+                  <span>
+                    results for you
+                  </span>
                 </p>
-                <Table isLoading={isLoading}>
+                <Table className="results-table" isLoading={isLoading}>
                   <TableHeader>
                     <TableRow>
                       {repositoryTableData.headers.length > 0 &&
                         repositoryTableData.headers.map((item, index) => (
-                          <TableHead className="p-3 border text-left" key={index}>
+                          <TableHead className="p-3 border text-left text-white" key={index}>
                             {item}
                           </TableHead>
                         ))}

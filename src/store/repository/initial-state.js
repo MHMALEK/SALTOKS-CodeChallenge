@@ -1,12 +1,12 @@
 const InitialState = {
   repositoryTableData: {
     headers: [
-      "full_name",
-      "owner",
-      "description",
-      "created_at",
-      "updated_at",
-      "more details"
+      "Full name",
+      "Owner",
+      "Description",
+      "Created At",
+      "Updated at",
+      "More"
     ]
   },
   repositoriesData: {

@@ -60,7 +60,8 @@ function hasLayout(route) {
   return withLayoutAndScrollTop(
     route.component,
     route.hasLayout,
-    route.needScrollToTopOnInit
+    route.needScrollToTopOnInit,
+    route.name
   )
 }
 
