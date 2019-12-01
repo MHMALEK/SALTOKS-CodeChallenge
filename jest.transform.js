@@ -1,19 +1,16 @@
-const babelDevPlugins = [
-  "@babel/plugin-syntax-dynamic-import",
-  "@babel/plugin-proposal-class-properties",
-  "@babel/plugin-transform-runtime"
-]
+// module.exports = require("babel-jest").createTransformer({
+//   plugins: ["babel-plugin-import-remove-resource-query"]
+// })
 
-const babelTestPlugins = [
+const babelDevPlugins = [
   "@babel/plugin-syntax-dynamic-import",
   "@babel/plugin-proposal-class-properties",
   "@babel/plugin-transform-runtime",
   "babel-plugin-import-remove-resource-query"
 ]
 
-const bableProductionPlugins = babelDevPlugins
-
-module.exports = {
+const config = {
+  babelrc: false,
   env: {
     test: {
       presets: [
@@ -26,11 +23,11 @@ module.exports = {
         ],
         "@babel/preset-react"
       ],
-      plugins: babelTestPlugins
+      plugins: babelDevPlugins
     },
     production: {
       presets: [["@babel/preset-env", { modules: false }], "@babel/preset-react"],
-      plugins: bableProductionPlugins
+      plugins: babelDevPlugins
     },
     development: {
       presets: [["@babel/preset-env", { modules: false }], "@babel/preset-react"],
@@ -38,3 +35,4 @@ module.exports = {
     }
   }
 }
+module.exports = require("babel-jest").createTransformer(config)
