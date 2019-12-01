@@ -1,34 +1,34 @@
-import ActionTypes from "./action-types"
+import ActionTypes from './action-types';
 
 export const requestRepositoriesAction = (
-  query,
-  page,
-  sort,
-  numberOfItemsPerPage
+    query,
+    page,
+    sort,
+    numberOfItemsPerPage
 ) => ({
   type: ActionTypes.REPOSITORIES_LIST_REQUESTED,
   payload: {
     query,
     page,
     sort,
-    numberOfItemsPerPage
-  }
-})
+    numberOfItemsPerPage,
+  },
+});
 
 export const requestRepositoriesFulfiled = (repositoriesData) => ({
   type: ActionTypes.REPOSITORIES_LIST_FULFILLED,
   payload: {
-    repositoriesData
-  }
-})
+    repositoriesData,
+  },
+});
 
 export const requestRepositoriesFaild = () => ({
-  type: ActionTypes.REPOSITORIES_LIST_FAILD
-})
+  type: ActionTypes.REPOSITORIES_LIST_FAILD,
+});
 
 export const startLoadingAfterUserTypeAction = () => ({
-  type: ActionTypes.USER_STARTED_TYPE
-})
+  type: ActionTypes.USER_STARTED_TYPE,
+});
 
 export const goToPageAction = (query, page, sort, numberOfItemsPerPage) => ({
   type: ActionTypes.GO_TO_PAGE_ACTION,
@@ -36,55 +36,55 @@ export const goToPageAction = (query, page, sort, numberOfItemsPerPage) => ({
     query,
     page,
     sort,
-    numberOfItemsPerPage
-  }
-})
+    numberOfItemsPerPage,
+  },
+});
 
 export const updateDurationTimeForApiResponse = (apiDurationToResponse) => ({
   type: ActionTypes.UPDATE_DURATION_TIME,
   payload: {
-    apiDurationToResponse
-  }
-})
+    apiDurationToResponse,
+  },
+});
 
 export const requestRepositoryDetailsAction = (repoUrl) => ({
   type: ActionTypes.REPOSITORY_DETAILS_REQUESTED,
   payload: {
-    repoUrl
-  }
-})
+    repoUrl,
+  },
+});
 
 export const requestRepositoryDetailsFulfiled = (repositoryData) => ({
   type: ActionTypes.REPOSITORY_DETAILS_FULFILLED,
   payload: {
-    repositoryData
-  }
-})
+    repositoryData,
+  },
+});
 
 export const requestRepositoryDetailsFaild = () => ({
-  type: ActionTypes.REPOSITORY_DETAILS_FAILD
-})
+  type: ActionTypes.REPOSITORY_DETAILS_FAILD,
+});
 
 export const requestReadMeFileAction = (repoUrl) => ({
   type: ActionTypes.REPOSITORY_READ_ME_REQUESTED,
   payload: {
-    repoUrl
-  }
-})
+    repoUrl,
+  },
+});
 
 export const requestReadMeFileFulFilled = (readMeUrl, content, encoding) => ({
   type: ActionTypes.REPOSITORY_READ_ME_FULFILLED,
   payload: {
     readMeUrl,
     content,
-    encoding
-  }
-})
+    encoding,
+  },
+});
 
 export const requestReadMeFileFaild = () => ({
-  type: ActionTypes.REPOSITORY_READ_ME_FAILD
-})
+  type: ActionTypes.REPOSITORY_READ_ME_FAILD,
+});
 
 export const removeSearchResultsAction = () => ({
-  type: ActionTypes.BRIEF_RESULTS_REMOVED
-})
+  type: ActionTypes.BRIEF_RESULTS_REMOVED,
+});

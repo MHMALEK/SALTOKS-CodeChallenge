@@ -1,19 +1,19 @@
-const purgecss = require("@fullhuman/postcss-purgecss")({
-  content: ["./src/**/*.html", "./src/**/*.jsx"],
-  defaultExtractor: (content) => content.match(/[\w-/:]+(?<!:)/g) || []
-})
+const purgecss = require('@fullhuman/postcss-purgecss')({
+  content: ['./src/**/*.html', './src/**/*.jsx'],
+  defaultExtractor: (content) => content.match(/[\w-/:]+(?<!:)/g) || [],
+});
 module.exports = {
   plugins: [
-    require("postcss-import")({
-      plugins: [require("stylelint")]
+    require('postcss-import')({
+      plugins: [require('stylelint')],
     }),
-    require("tailwindcss"),
-    require("postcss-preset-env")({
-      autoprefixer: { grid: true },
+    require('tailwindcss'),
+    require('postcss-preset-env')({
+      autoprefixer: {grid: true},
       features: {
-        "nesting-rules": true
-      }
+        'nesting-rules': true,
+      },
     }),
-    ...(process.env.NODE_ENV === "production" ? [purgecss] : [])
-  ]
-}
+    ...(process.env.NODE_ENV === 'production' ? [purgecss] : []),
+  ],
+};

@@ -1,22 +1,22 @@
-import React from "react"
-import renderer from "react-test-renderer"
-import { MemoryRouter } from "react-router-dom"
-import HomePageDumb from "./home-page.dumb"
-import { repositoriseSearchApi } from "../../../../__mocks__/server-repsonse"
-describe("Home page Snappshot ", () => {
+import React from 'react';
+import renderer from 'react-test-renderer';
+import {MemoryRouter} from 'react-router-dom';
+import HomePageDumb from './home-page.dumb';
+import {repositoriseSearchApi} from '../../../../__mocks__/server-repsonse';
+describe('Home page Snappshot ', () => {
   const mockProps = {
     isLoading: true,
     repositoryTableData: {
       headers: [
-        "full_name",
-        "owner",
-        "description",
-        "url",
-        "created_at",
-        "updated_at",
-        "watchers_count",
-        "see complete repo details"
-      ]
+        'full_name',
+        'owner',
+        'description',
+        'url',
+        'created_at',
+        'updated_at',
+        'watchers_count',
+        'see complete repo details',
+      ],
     },
     fullRepositoriesData: {
       list: repositoriseSearchApi.items,
@@ -24,25 +24,25 @@ describe("Home page Snappshot ", () => {
         next: null,
         prev: null,
         first: null,
-        last: null
+        last: null,
       },
       briefRepositoriesData: {
-        list: repositoriseSearchApi.items.slice(0, 3)
+        list: repositoriseSearchApi.items.slice(0, 3),
       },
       incomplete_results: repositoriseSearchApi.incomplete_results,
-      total_count: repositoriseSearchApi.total_count
+      total_count: repositoriseSearchApi.total_count,
     },
     requestRepositories: () => repositoriseSearchApi.mockFetch(),
-    userStartTyping: () => console.log("isType"),
-    goToPageAction: () => repositoriseSearchApi.mockFetch()
-  }
-  test("snapshot renders", () => {
+    userStartTyping: () => console.log('isType'),
+    goToPageAction: () => repositoriseSearchApi.mockFetch(),
+  };
+  test('snapshot renders', () => {
     const component = renderer.create(
-      <MemoryRouter>
-        <HomePageDumb {...mockProps} />
-      </MemoryRouter>
-    )
-    let tree = component.toJSON()
-    expect(tree).toMatchSnapshot()
-  })
-})
+        <MemoryRouter>
+          <HomePageDumb {...mockProps} />
+        </MemoryRouter>
+    );
+    const tree = component.toJSON();
+    expect(tree).toMatchSnapshot();
+  });
+});

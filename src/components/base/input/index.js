@@ -1,8 +1,8 @@
-import React from "react"
-import PropTypes from "prop-types"
+import React from 'react';
+import PropTypes from 'prop-types';
 
 export default function Input(props) {
-  const { className, value, name, onChange } = props
+  const {className, value, name, onChange} = props;
   return (
     <input
       {...props}
@@ -11,7 +11,7 @@ export default function Input(props) {
       className={`input bg-gray appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none ${className}`}
       name={name}
     />
-  )
+  );
 }
 
 Input.propTypes = {
@@ -19,13 +19,13 @@ Input.propTypes = {
   className: PropTypes.string,
   disabled: PropTypes.bool,
   value: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired
-}
+  name: PropTypes.string.isRequired,
+};
 
 Input.defaultProps = {
   onChange: null,
-  className: "",
+  className: '',
   disabled: false,
-  value: "",
-  name: "input-text-no-name"
-}
+  value: '',
+  name: 'input-text-no-name',
+};

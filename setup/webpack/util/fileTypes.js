@@ -9,5 +9,5 @@ module.exports = {
   // font files
   font: /\.(eot|ttf|woff|woff2|svg)$/,
   // image related files
-  images: /\.(jpg|png|jpe?g|gif)$/
-}
+  images: /\.(jpg|png|jpe?g|gif)$/,
+};

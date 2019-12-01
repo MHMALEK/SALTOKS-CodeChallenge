@@ -1,59 +1,59 @@
 // webpack utils
-const MiniCssExtractPlugin = require("mini-css-extract-plugin")
-const pathTo = require("./util/pathTo")
-const fileTypes = require("./util/fileTypes")
-const supportedExtensions = require("./util/supportedExtensions")
-const webpackPlugins = require("./plugins")
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const pathTo = require('./util/pathTo');
+const fileTypes = require('./util/fileTypes');
+const supportedExtensions = require('./util/supportedExtensions');
+const webpackPlugins = require('./plugins');
 
 // util functions
 const properStyleLoader =
-  process.env.NODE_ENV === "production"
-    ? MiniCssExtractPlugin.loader
-    : "style-loader"
+  process.env.NODE_ENV === 'production' ?
+    MiniCssExtractPlugin.loader :
+    'style-loader';
 
 const fileLoaderOptions = {
   name() {
     // change name of files based on env
-    if (process.env.NODE_ENV === "development") {
-      return "[path][name].[ext]"
+    if (process.env.NODE_ENV === 'development') {
+      return '[path][name].[ext]';
     }
-    return "[hash].[ext]"
-  }
-}
+    return '[hash].[ext]';
+  },
+};
 
 const createStyleLoader = (externalOrInternal) => [
   {
-    loader: properStyleLoader
+    loader: properStyleLoader,
   },
   {
-    loader: "css-loader",
+    loader: 'css-loader',
     options: {
       modules:
-        externalOrInternal === "externalCssLibsWithOutCssModules" ? false : true,
+        externalOrInternal === 'externalCssLibsWithOutCssModules' ? false : true,
       sourceMap: true,
-      importLoaders: 1
-    }
+      importLoaders: 1,
+    },
   },
   {
-    loader: "postcss-loader"
+    loader: 'postcss-loader',
   },
   {
-    loader: "resolve-url-loader"
+    loader: 'resolve-url-loader',
   },
   {
-    loader: "sass-loader",
+    loader: 'sass-loader',
     options: {
-      sourceMap: true
-    }
-  }
-]
+      sourceMap: true,
+    },
+  },
+];
 
 module.exports = {
   entry: pathTo.entryPointSrc,
   output: {
-    filename: "[name].bundle.[hash].js",
+    filename: '[name].bundle.[hash].js',
     path: pathTo.distDir,
-    publicPath: "/"
+    publicPath: '/',
   },
   module: {
     rules: [
@@ -62,9 +62,9 @@ module.exports = {
         exclude: pathTo.nodeModulesDir,
         use: [
           {
-            loader: "babel-loader"
-          }
-        ]
+            loader: 'babel-loader',
+          },
+        ],
       },
       {
         // a rule for all css libs that should not pass css modules compiler
@@ -73,47 +73,47 @@ module.exports = {
         oneOf: [
           {
             resourceQuery: /^\?interalCssWithCssModules$/,
-            use: createStyleLoader("interalCssWithCssModules")
+            use: createStyleLoader('interalCssWithCssModules'),
           },
           {
-            use: createStyleLoader("externalCssLibsWithOutCssModules")
-          }
-        ]
+            use: createStyleLoader('externalCssLibsWithOutCssModules'),
+          },
+        ],
       },
       {
         test: fileTypes.font,
         exclude: pathTo.nodeModulesDir,
         use: [
           {
-            loader: "file-loader",
-            options: fileLoaderOptions
-          }
-        ]
+            loader: 'file-loader',
+            options: fileLoaderOptions,
+          },
+        ],
       },
       {
         test: fileTypes.images,
         exclude: pathTo.nodeModulesDir,
         use: [
           {
-            loader: "file-loader",
-            options: fileLoaderOptions
-          }
-        ]
-      }
-    ]
+            loader: 'file-loader',
+            options: fileLoaderOptions,
+          },
+        ],
+      },
+    ],
   },
   plugins: webpackPlugins.commonPlugins,
   resolve: {
-    modules: ["node_modules", "src"],
+    modules: ['node_modules', 'src'],
     alias: {
-      "react-dom": "@hot-loader/react-dom",
-      Src: pathTo.srcDir,
-      Components: pathTo.componentsDir,
-      Store: pathTo.storeDir,
-      Services: pathTo.servicesDir,
-      Utils: pathTo.utilsDir
+      'react-dom': '@hot-loader/react-dom',
+      'Src': pathTo.srcDir,
+      'Components': pathTo.componentsDir,
+      'Store': pathTo.storeDir,
+      'Services': pathTo.servicesDir,
+      'Utils': pathTo.utilsDir,
     },
-    extensions: supportedExtensions
+    extensions: supportedExtensions,
   },
-  target: "web"
-}
+  target: 'web',
+};

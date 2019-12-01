@@ -1,3 +1,6 @@
-const InitialState = {}
+const InitialState = {
+   showStart: false,
+   showLoading: true,
+};
 
-export default InitialState
+export default InitialState;

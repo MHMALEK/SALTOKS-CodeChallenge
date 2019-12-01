@@ -1,12 +1,12 @@
 export default {
   // INDEX Route
-  INDEX: "/",
+  INDEX: '/',
 
-  REPOSITORY_MAIN: "/repos",
+  REPOSITORY_MAIN: '/repos',
 
   // REPO DYNAMIC ROUTE
-  REPOSITORY_DETAILS: "/repos/:id",
+  REPOSITORY_DETAILS: '/repos/:id',
 
   // other Routes
-  NOT_FOUND: "*"
-}
+  NOT_FOUND: '*',
+};

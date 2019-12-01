@@ -1,5 +1,5 @@
 const InitialState = {
-  userDefaultLanguage: "en-US"
-}
+  userDefaultLanguage: 'en-US',
+};
 
-export default InitialState
+export default InitialState;

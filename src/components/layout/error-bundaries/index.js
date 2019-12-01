@@ -1,10 +1,10 @@
 /* eslint-disable no-unused-vars */
-import React from "react"
-import PropTypes from "prop-types"
+import React from 'react';
+import PropTypes from 'prop-types';
 class ErrorBoundary extends React.Component {
   constructor(props) {
-    super(props)
-    this.state = { hasError: false }
+    super(props);
+    this.state = {hasError: false};
   }
 
   static getDerivedStateFromError(_error) {
@@ -30,14 +30,14 @@ class ErrorBoundary extends React.Component {
             possible
           </p>
         </>
-      )
+      );
     }
 
-    return this.props.children
+    return this.props.children;
   }
 }
 
 ErrorBoundary.propTypes = {
-  children: PropTypes.node
-}
-export default ErrorBoundary
+  children: PropTypes.node,
+};
+export default ErrorBoundary;

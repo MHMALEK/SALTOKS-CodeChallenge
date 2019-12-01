@@ -1,12 +1,12 @@
-import * as Axios from "axios"
+import * as Axios from 'axios';
 
 export const HttpMethod = {
-  GET: "GET",
-  POST: "POST",
-  PATCH: "PATCH",
-  PUT: "PUT",
-  DELETE: "DELETE"
-}
+  GET: 'GET',
+  POST: 'POST',
+  PATCH: 'PATCH',
+  PUT: 'PUT',
+  DELETE: 'DELETE',
+};
 
 export class HttpClient {
   _baseUrl
@@ -15,46 +15,46 @@ export class HttpClient {
    * Create a new Http Client
    */
   constructor(baseUrl, options) {
-    this._baseUrl = baseUrl
-    this._options = options
-    this.addRequestInterceptors()
-    this.addResponseInterceptors()
+    this._baseUrl = baseUrl;
+    this._options = options;
+    this.addRequestInterceptors();
+    this.addResponseInterceptors();
   }
 
   addRequestInterceptors() {
     Axios.interceptors.request.use(
-      function(config) {
-        config.metadata = { startTime: new Date() }
-        return config
-      },
-      function(error) {
-        return Promise.reject(error)
-      }
-    )
+        function(config) {
+          config.metadata = {startTime: new Date()};
+          return config;
+        },
+        function(error) {
+          return Promise.reject(error);
+        }
+    );
   }
   addResponseInterceptors() {
     Axios.interceptors.response.use(
-      function(response) {
-        response.config.metadata.endTime = new Date()
-        // calculate response duraton for every request
-        response.duration =
-          response.config.metadata.endTime - response.config.metadata.startTime
-        return response
-      },
-      function(error) {
-        error.config.metadata.endTime = new Date()
-        error.duration =
-          error.config.metadata.endTime - error.config.metadata.startTime
-        return Promise.reject(error)
-      }
-    )
+        function(response) {
+          response.config.metadata.endTime = new Date();
+          // calculate response duraton for every request
+          response.duration =
+          response.config.metadata.endTime - response.config.metadata.startTime;
+          return response;
+        },
+        function(error) {
+          error.config.metadata.endTime = new Date();
+          error.duration =
+          error.config.metadata.endTime - error.config.metadata.startTime;
+          return Promise.reject(error);
+        }
+    );
   }
 
   /**
    * Return base URL of the current Http Client
    */
   getBaseUrl() {
-    return this._baseUrl
+    return this._baseUrl;
   }
 
   /**
@@ -70,15 +70,15 @@ export class HttpClient {
       method,
       url,
       headers: {
-        Authorization: token || "",
+        Authorization: token || '',
         Accept: `${
-          this._options && this._options.versionOfApi
-            ? this._options.versionOfApi
-            : "application/json"
-        }`
+          this._options && this._options.versionOfApi ?
+            this._options.versionOfApi :
+            'application/json'
+        }`,
       },
       data,
-      params
-    })
+      params,
+    });
   }
 }

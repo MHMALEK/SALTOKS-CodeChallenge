@@ -1,1 +1,1 @@
-module.exports = ['.js', '.jsx', '.less', 'json'];
+module.exports = ['.js', '.jsx', '.less', 'json', 'css', 'scss'];

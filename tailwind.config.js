@@ -1,5 +1,5 @@
 module.exports = {
   variants: {
-    tableLayout: ["responsive", "hover", "focus"]
-  }
-}
+    tableLayout: ['responsive', 'hover', 'focus'],
+  },
+};

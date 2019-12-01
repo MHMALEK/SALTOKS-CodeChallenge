@@ -1,19 +1,50 @@
 {
-  "env": {
-    "browser": true,
-    "jest": true,
-    "es6": true,
-    "node": true
-  },
-  "parser": "babel-eslint",
-  "parserOptions": {
-    "sourceType": "module",
-    "ecmaVersion": 2018
-  },
-  "extends": [
-    "eslint:recommended",
-    "plugin:react/recommended",
-    "prettier",
-    "plugin:cypress/recommended"
-  ]
+   "env": {
+      "browser": true,
+      "jest": true,
+      "es6": true,
+      "node": true
+   },
+   "parser": "babel-eslint",
+   "parserOptions": {
+      "sourceType": "module",
+      "ecmaVersion": 2018
+   },
+   "extends": [
+      "eslint:recommended",
+      "plugin:react/recommended",
+      "google",
+      "plugin:cypress/recommended",
+      "prettier"
+   ],
+   "settings": {
+      "react": {
+         "createClass": "createReactClass", // Regex for Component Factory to use,
+         "pragma": "React", // Pragma to use, default to "React"
+         "version": "detect" // React version. "detect" automatically picks the version you have installed.
+      },
+      "propWrapperFunctions": [
+         "forbidExtraProps",
+         {
+            "property": "freeze",
+            "object": "Object"
+         },
+         {
+            "property": "myFavoriteWrapper"
+         }
+      ],
+      "linkComponents": [
+         "Hyperlink",
+         {
+            "name": "Link",
+            "linkAttribute": "to"
+         }
+      ]
+   },
+   "rules": {
+      "require-jsdoc": 0,
+      "valid-jsdoc": 0,
+      "react/jsx-uses-react": "error",
+      "react/jsx-uses-vars": "error"
+   }
 }

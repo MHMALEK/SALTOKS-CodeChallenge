@@ -20,16 +20,16 @@ export default function withLayoutAndScrollTop(
               <WrappedComponent {...this.props} />
             </MainLayout>
           ) : (
-              <WrappedComponent {...this.props} />
-            )}
+            <WrappedComponent {...this.props} />
+          )}
         </ScrollToTop>
       ) : hasLayout ? (
-        <MainLayout  {...this.props} routeName={routeName}>
+        <MainLayout {...this.props} routeName={routeName}>
           <WrappedComponent {...this.props} />
         </MainLayout>
       ) : (
-            <WrappedComponent {...this.props} />
-          )
+        <WrappedComponent {...this.props} />
+      )
     }
   }
 }
