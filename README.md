@@ -1,6 +1,6 @@
 # Salto KS Test
 
-Hi! this the Code challenge that you gave me! hope it has good points for you.
+Hi! this the Code challenge that you gave me! Hope it's all great!
 
 # Main Stack
 
@@ -49,7 +49,7 @@ to better organizing, there is an option or config file that store general thing
 
 ### Styles:
 
-as this is a test and I don't exactly know what you want for styles, I just used a css utility framework. Tailwind is great for start a project in less time. beside that I have some CSS and Sass file. most of the styles are css files because they were small and didn't need to write with sass. for just sample I used CSS MODULES beside general css loader to show you about webpack config. but there is just one component that use css modules for styles.
+as this is a test and I don't exactly know what you want for styles, I just used a css utility framework. Tailwind is great for start a project in less time. beside that I have some CSS and Sass file. most of the styles are css files because they were small and didn't need to write with sass. for sample I used CSS MODULES beside general css loader (with oneOF rule in webpack and add queryparameter to files in components) to show you about that. but there is just one component that use css modules for styles.
 
 ## Service worker and PWA
 
@@ -64,4 +64,4 @@ I'm not a good tester, but I tride to do my best. hope it's allright. ther is al
 I really didn't get what you want about times. I just changed the times and show the diffrence between current time and the api time.
 I have developed my own Lazy Load component with Intersection Observer API. I know this in not cross platform (not supporting Older browsers or IE ) but I didn't have enough time to write a completed lazy load component. so sorry about that.
 
-# Thanks, Thanks for great Interview and the great oppurtunity!
+## Thanks for the great oppurtunity!
