@@ -14,7 +14,7 @@ Libraries and frameworks:
 -  [Tailwind](https://tailwindcss.com/)
 -  SASS (there isn't so much Sass and CSS because no need to. I used Tailwind as Main CSS framework, but I have some CSS and SASS with CSS Modules too.
 -  JEST and Enzyme for Unit Tests
--  CYPRESS for END2END Test. as writing of this document, I didn't write special test with it, just config it for a better time.
+-  CYPRESS for END2END Test. as writing of this document, I didn't write special test with it, just do some configuration on it.
 -  React Router as main Router
 -  eslint and prettier for lint and format files
 -  some wepack config.
